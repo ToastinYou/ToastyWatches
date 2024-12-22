@@ -31,3 +31,10 @@ Easily store a list of TV shows and movies you wish to watch.
   * GitHub.
 * IDE
   * Visual Studio 2022.
+
+## Architecture
+
+* Models: Database objects.
+* Repositories: Database access, CRUD operations.
+* Services: Business logic and rules.
+* Views: Razor Components.
