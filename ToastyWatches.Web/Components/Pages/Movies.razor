@@ -1,0 +1,33 @@
+﻿@page "/movies"
+@inject MovieDbService movieDbService
+
+<PageTitle>Movies</PageTitle>
+
+<h1>Movies</h1>
+
+@if (movies == null || !movies.Any())
+{
+    <p>Loading...</p>
+}
+else
+{
+    <div class="movie-grid">
+        @foreach (Movie movie in movies)
+        {
+            <div class="movie-item">
+                <img src="@movie.PosterPath" alt="@movie.Title" />
+                <h3>@movie.Title</h3>
+                <p>@movie.Overview</p>
+            </div>
+        }
+    </div>
+}
+
+@code {
+    private List<Movie> movies = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        movies = await movieDbService.GetMoviesAsync();
+    }
+}

@@ -1,9 +1,12 @@
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json;
 using ToastyWatches.Web.Components;
 using ToastyWatches.Web.Components.Account;
 using ToastyWatches.Web.Data;
+using ToastyWatches.Web.Helpers;
+using ToastyWatches.Web.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,6 +37,18 @@ builder.Services.AddIdentityCore<ApplicationUser>(options => options.SignIn.Requ
     .AddDefaultTokenProviders();
 
 builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();
+
+builder.Services.AddHttpClient();
+
+builder.Services.AddScoped<MovieDbService>();
+
+builder.Services.AddScoped(serviceProvider => new JsonSerializerOptions()
+{
+    PropertyNameCaseInsensitive = true,
+    PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+});
+builder.Services.AddScoped<MovieDeserializer>();
+
 
 var app = builder.Build();
 
